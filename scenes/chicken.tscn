@@ -1,0 +1,258 @@
+[gd_scene load_steps=22 format=3 uid="uid://bvevhq7sxdc0n"]
+
+[ext_resource type="Script" uid="uid://b68i57vk1ddqb" path="res://scripts/chicken.gd" id="1_rc7ma"]
+[ext_resource type="Texture2D" uid="uid://d0yt38bng5mxu" path="res://assets/sprites/chicken_idle_left-Sheet.png" id="2_0du8g"]
+[ext_resource type="Texture2D" uid="uid://cgmn2trbafgu8" path="res://assets/sprites/chicken_eating_left-Sheet.png" id="3_bti8l"]
+[ext_resource type="Texture2D" uid="uid://bjpx50qxn8fsr" path="res://assets/sprites/chicken_run_left-Sheet.png" id="4_pep2a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rc7ma"]
+
+[sub_resource type="Animation" id="Animation_rapj4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Parent/Idle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Parent/Eat:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Parent/Walk:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Parent/Walk:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Parent/Eat:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Parent/Idle:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_scdff"]
+resource_name = "eating"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Parent/Eat:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Parent/Eat:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_xf5r6"]
+resource_name = "idle"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Parent/Idle:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Parent/Idle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_nh41e"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Parent/Walk:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Parent/Walk:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_74ncm"]
+_data = {
+&"RESET": SubResource("Animation_rapj4"),
+&"eating": SubResource("Animation_scdff"),
+&"idle": SubResource("Animation_xf5r6"),
+&"walk": SubResource("Animation_nh41e")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ah4wx"]
+animation = &"eating"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqyg7"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jpm5r"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_q1727"]
+advance_mode = 2
+advance_expression = "action == WALK"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rc7ma"]
+advance_mode = 2
+advance_expression = "action == IDLE"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0du8g"]
+advance_mode = 2
+advance_expression = "action == EAT"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bti8l"]
+advance_mode = 2
+advance_expression = "action == EAT"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pep2a"]
+advance_mode = 2
+advance_expression = "action == IDLE"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5sgx4"]
+advance_mode = 2
+advance_expression = "action == WALK"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8aah5"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_pfgc4"]
+states/eating/node = SubResource("AnimationNodeAnimation_ah4wx")
+states/eating/position = Vector2(388.667, 110.37)
+states/idle/node = SubResource("AnimationNodeAnimation_lqyg7")
+states/idle/position = Vector2(486, 262)
+states/walk/node = SubResource("AnimationNodeAnimation_jpm5r")
+states/walk/position = Vector2(591.333, 111.556)
+transitions = ["eating", "walk", SubResource("AnimationNodeStateMachineTransition_q1727"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_rc7ma"), "idle", "eating", SubResource("AnimationNodeStateMachineTransition_0du8g"), "walk", "eating", SubResource("AnimationNodeStateMachineTransition_bti8l"), "eating", "idle", SubResource("AnimationNodeStateMachineTransition_pep2a"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_5sgx4"), "Start", "eating", SubResource("AnimationNodeStateMachineTransition_8aah5")]
+
+[node name="Chicken" type="CharacterBody2D"]
+collision_layer = 0
+script = ExtResource("1_rc7ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rc7ma")
+one_way_collision = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_74ncm")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_pfgc4")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Parent" type="Sprite2D" parent="."]
+
+[node name="Idle" type="Sprite2D" parent="Parent"]
+visible = false
+texture = ExtResource("2_0du8g")
+hframes = 4
+
+[node name="Eat" type="Sprite2D" parent="Parent"]
+visible = false
+texture = ExtResource("3_bti8l")
+hframes = 8
+
+[node name="Walk" type="Sprite2D" parent="Parent"]
+visible = false
+texture = ExtResource("4_pep2a")
+hframes = 4
