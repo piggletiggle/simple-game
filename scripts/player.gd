@@ -15,21 +15,10 @@ var is_attacking2 = false
 
 
 func _input(event):
-    _animation_tree.set("parameters/TimeScale/scale", 5.0)
+    # TODO: probably should use a separate state tree for this and just play the animation when we transition between states
     is_attacking = event.is_action_pressed("attack")
     is_attacking2 = event.is_action_pressed("attack2")
 
-func handle_jump():
-    if !is_on_floor() and is_on_ground:
-        is_on_ground = false
-        #state_chart.send_event("jump")
-        
-    if is_on_floor():
-        #num_jumps = 0
-        # if we're on the floor, but previous wasn't (i.e. we were in the air)
-        if !is_on_ground:
-            state_chart.send_event("airToGround")
-            is_on_ground = true
 
 func handle_sprite_direction(direction: float):
     for child_sprite in _parent_sprite.get_children():
@@ -45,7 +34,20 @@ func _physics_process(delta: float) -> void:
     if not is_on_floor():
         velocity += get_gravity() * delta
 
-    handle_jump()
+    # REGION: JUMP
+    if !is_on_floor() and is_on_ground:
+        is_on_ground = false
+        #state_chart.send_event("jump")
+        
+    if is_on_floor():
+        #num_jumps = 0
+        # if we're on the floor, but previous wasn't (i.e. we were in the air)
+        if !is_on_ground:
+            state_chart.send_event("airToGround")
+            is_on_ground = true
+#ENDREGION
+
+# REGION: DIRECTIONS
     var direction := Input.get_axis("ui_left", "ui_right")
     if direction:
         velocity.x = direction * SPEED
@@ -53,17 +55,7 @@ func _physics_process(delta: float) -> void:
     else:
         velocity.x = move_toward(velocity.x, 0, SPEED)
     move_and_slide()
-
-    # let the state machine know if we are moving or not
-
-    # if velocity.length_squared() <= 0.005:
-    # 	_animation_state_machine.travel("Idle")
-    # else:
-    # 	_animation_state_machine.travel("run")
-    # if Input.is_action_just_pressed("attack"):
-    # 	is_attacking = true
-    # else:
-    # 	is_attacking = false
+#ENDREGION
 
 func _on_can_jump_state_physics_processing(delta: float) -> void:
     if Input.is_action_just_pressed("jump"):
@@ -73,4 +65,4 @@ func _on_can_jump_state_physics_processing(delta: float) -> void:
 
 func _on_area_2d_hitbox_attack_area_entered(area: Area2D) -> void:
     if area.is_in_group("hurtbox"):
-        area.take_damage() # TODO
+        area.take_damage()
