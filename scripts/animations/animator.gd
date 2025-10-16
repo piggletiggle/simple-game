@@ -2,8 +2,9 @@
 class_name Animator
 extends Sprite2D
 
-@onready var animation_manager: AnimationManager = $AnimationManager
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+@export var animation_manager: AnimationManager
+@export var animation_player: AnimationPlayer
 
 ## This is the name you gave to this animation inside the AnimationPlayer
 var animation_player_name
@@ -20,8 +21,8 @@ func play() -> void:
     self.visible = true
     if (animation_manager != null):
         animation_manager.stop()
-    
-    animation_player.play(animation_player_name)
+    if (animation_player != null):
+        animation_player.play(animation_player_name)
 
 ## Must be implemented. This should
 ## - stop playing the relevant animation
@@ -31,12 +32,14 @@ func play() -> void:
 func stop() -> void:
     self.visible = false
     print("trying to stop playing: ", animation_player_name)
-    animation_player.stop(animation_player_name)
+    print(animation_player)
+    animation_player.stop()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-    pass # Replace with function body.
+    print("animator is ready")
+    print(animation_player)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

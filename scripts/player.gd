@@ -4,10 +4,11 @@ const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
 var num_jumps = 0
 @onready var state_chart: StateChart = $StateChart
+@onready var animation_manager: AnimationManager = $AnimationManager
 
-@onready var _animation_tree: AnimationTree = $AnimationTree
-@onready var _animation_state_machine: AnimationNodeStateMachinePlayback = _animation_tree.get("parameters/playback")
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+#@onready var _animation_tree: AnimationTree = $AnimationTree
+#@onready var _animation_state_machine: AnimationNodeStateMachinePlayback = _animation_tree.get("parameters/playback")
+#@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d_attack: Sprite2D = $Sprite2D/Sprite2D_Attack
 @onready var sprite_2d_idle: Sprite2D = $Sprite2D/Sprite2D_Idle
 
@@ -24,6 +25,7 @@ func _input(event):
 
 
 func handle_sprite_direction(direction: float):
+    # TODO: move this shit to the animator
     for child_sprite in _parent_sprite.get_children():
         if direction < 0 and _parent_sprite.scale.x > 0:
             _parent_sprite.scale.x *= -1
@@ -53,7 +55,7 @@ func _physics_process(delta: float) -> void:
 # REGION: DIRECTIONS
     var direction := Input.get_axis("ui_left", "ui_right")
     if direction:
-        animation_player.play("run")
+        animation_manager.play("Animator_Run")
         velocity.x = direction * SPEED
         handle_sprite_direction(direction)
     else:
@@ -75,6 +77,4 @@ func _on_area_2d_hitbox_attack_area_entered(area: Area2D) -> void:
 
 func _on_grounded_state_entered() -> void:
     print("idling state")
-    animation_player.play("Idle")
-    sprite_2d_idle.visible = true
-    print(sprite_2d_idle.is_visible())
+    animation_manager.play("Animator_Idle")

@@ -4,6 +4,8 @@ extends Animator
 func _ready() -> void:
     animation_player_name = "run"
     print("Ready animation_player_name: ", animation_player_name)
+    print(self.animation_player)
+    print(self.animation_manager)
     
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

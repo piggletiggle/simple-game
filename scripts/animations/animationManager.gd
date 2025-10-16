@@ -18,7 +18,9 @@ var current_animation: Animator = null
 func play(animator_name: String):
     print("playing animation: ", animator_name)
     var animator: Animator = nameToAnimator.get(animator_name)
-    current_animation.stop()
+    print("trying to stop current animation", current_animation)
+    if (current_animation != null):
+        current_animation.stop()
     animator.play()
     current_animation = animator
     
@@ -26,7 +28,8 @@ func play(animator_name: String):
 # This stops the current_animation
 # idk why you would need it though. Playing automatically stops the previous one.
 func stop() -> void:
-    current_animation.stop()
+    if current_animation != null:
+        current_animation.stop()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
