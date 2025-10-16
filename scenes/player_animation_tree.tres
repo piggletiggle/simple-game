@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=17 format=3 uid="uid://byilh8aiqs378"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=16 format=3 uid="uid://byilh8aiqs378"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8px16"]
 animation = &"Idle"
@@ -24,9 +24,6 @@ advance_expression = "is_attacking"
 switch_mode = 2
 advance_mode = 2
 advance_expression = "!is_attacking"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ic5u8"]
-advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8px16"]
 advance_mode = 2
@@ -75,4 +72,4 @@ states/attack2/node = SubResource("AnimationNodeAnimation_l5p5i")
 states/attack2/position = Vector2(612.667, 278.667)
 states/run/node = SubResource("AnimationNodeAnimation_v4p53")
 states/run/position = Vector2(628.444, 72.922)
-transitions = ["Idle", "attack", SubResource("AnimationNodeStateMachineTransition_t0nfq"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_8jovi"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_ltttp"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ic5u8"), "Idle", "run", SubResource("AnimationNodeStateMachineTransition_8px16"), "run", "Idle", SubResource("AnimationNodeStateMachineTransition_kedyd"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_1551j"), "attack", "attack2", SubResource("AnimationNodeStateMachineTransition_ox7vo"), "attack2", "run", SubResource("AnimationNodeStateMachineTransition_t4omw"), "run", "attack2", SubResource("AnimationNodeStateMachineTransition_2wmww"), "attack2", "Idle", SubResource("AnimationNodeStateMachineTransition_yf1kj"), "Idle", "attack2", SubResource("AnimationNodeStateMachineTransition_dr6s3")]
+transitions = ["Idle", "attack", SubResource("AnimationNodeStateMachineTransition_t0nfq"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_8jovi"), "attack", "Idle", SubResource("AnimationNodeStateMachineTransition_ltttp"), "Idle", "run", SubResource("AnimationNodeStateMachineTransition_8px16"), "run", "Idle", SubResource("AnimationNodeStateMachineTransition_kedyd"), "attack", "run", SubResource("AnimationNodeStateMachineTransition_1551j"), "attack", "attack2", SubResource("AnimationNodeStateMachineTransition_ox7vo"), "attack2", "run", SubResource("AnimationNodeStateMachineTransition_t4omw"), "run", "attack2", SubResource("AnimationNodeStateMachineTransition_2wmww"), "attack2", "Idle", SubResource("AnimationNodeStateMachineTransition_yf1kj"), "Idle", "attack2", SubResource("AnimationNodeStateMachineTransition_dr6s3")]

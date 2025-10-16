@@ -1,0 +1,11 @@
+extends Animator
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+    animation_player_name = "Idle"
+    print("Ready animation_player_name: ", animation_player_name)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+    pass

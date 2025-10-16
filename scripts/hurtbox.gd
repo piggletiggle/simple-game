@@ -7,7 +7,6 @@ func layer_num_to_layer_val(layer_value: int) -> int:
     return 2**(layer_value - 1)
 
 func _init():
-    print("init hurtbox")
     collision_layer = 0
     collision_mask = 2 #layer_num_to_layer_val(2)
 

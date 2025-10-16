@@ -1,16 +1,18 @@
-[gd_scene load_steps=22 format=3 uid="uid://bohm4ss31l0fl"]
+[gd_scene load_steps=23 format=3 uid="uid://bohm4ss31l0fl"]
 
 [ext_resource type="Script" uid="uid://crjrqqwac6jsk" path="res://scripts/player.gd" id="1_se5fe"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="6_8px16"]
 [ext_resource type="Texture2D" uid="uid://dnfut4uxnkagl" path="res://assets/sprites/Warrior/Warrior_Run.png" id="6_kedyd"]
-[ext_resource type="AnimationNodeStateMachine" uid="uid://byilh8aiqs378" path="res://scenes/player_animation_tree.tres" id="6_v4p53"]
 [ext_resource type="Texture2D" uid="uid://bmy7yyf4elsgy" path="res://assets/sprites/Warrior/Warrior_Idle.png" id="7_8px16"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="7_kedyd"]
+[ext_resource type="Script" uid="uid://c6rhor2wdor1a" path="res://scripts/animations/runAnimator.gd" id="7_v4p53"]
 [ext_resource type="Texture2D" uid="uid://dtl06hyl42cwj" path="res://assets/sprites/Warrior/Warrior_Attack1.png" id="8_kedyd"]
 [ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="8_v4p53"]
 [ext_resource type="Script" uid="uid://cp1oq0li6bh1s" path="res://scripts/Hitbox.gd" id="9_8px16"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="9_32af4"]
 [ext_resource type="Texture2D" uid="uid://ckgusfga8xa3b" path="res://assets/sprites/Warrior/Warrior_Attack2.png" id="10_kedyd"]
+[ext_resource type="Script" uid="uid://bpvi5kdtuctoj" path="res://scripts/animations/animationManager.gd" id="12_sjxxq"]
+[ext_resource type="Script" uid="uid://bvkker5rhnufn" path="res://scripts/idleAnimator.gd" id="13_sjxxq"]
 
 [sub_resource type="Animation" id="Animation_32af4"]
 resource_name = "Idle"
@@ -285,15 +287,8 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kedyd"]
 size = Vector2(17, 20)
 
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_v4p53"]
-
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_32af4"]
-nodes/AnimationNodeStateMachine/node = ExtResource("6_v4p53")
-nodes/AnimationNodeStateMachine/position = Vector2(586.667, 120)
-nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_v4p53")
-nodes/TimeScale/position = Vector2(973.333, 80)
 nodes/output/position = Vector2(1400, 106.667)
-node_connections = [&"TimeScale", 0, &"AnimationNodeStateMachine", &"output", 0, &"TimeScale"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ic5u8"]
 size = Vector2(122, 106)
@@ -365,7 +360,6 @@ shape = SubResource("RectangleShape2D_kedyd")
 tree_root = SubResource("AnimationNodeBlendTree_32af4")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/TimeScale/scale = 1.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 4)
@@ -376,6 +370,7 @@ visible = false
 position = Vector2(0, -38)
 texture = ExtResource("6_kedyd")
 hframes = 6
+script = ExtResource("7_v4p53")
 
 [node name="Sprite2D_Idle" type="Sprite2D" parent="Sprite2D"]
 visible = false
@@ -422,6 +417,29 @@ position = Vector2(6, -10)
 shape = SubResource("RectangleShape2D_ic5u8")
 disabled = true
 
+[node name="AnimationManager" type="Sprite2D" parent="."]
+position = Vector2(0, 4)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("12_sjxxq")
+metadata/_custom_type_script = "uid://bpvi5kdtuctoj"
+
+[node name="Animator_Run" type="Sprite2D" parent="AnimationManager"]
+visible = false
+position = Vector2(0, -38)
+texture = ExtResource("6_kedyd")
+hframes = 6
+script = ExtResource("7_v4p53")
+metadata/_custom_type_script = "uid://dwkv0jttmsyn"
+
+[node name="Animator_Idle" type="Sprite2D" parent="AnimationManager"]
+position = Vector2(-2, -37)
+texture = ExtResource("7_8px16")
+hframes = 8
+frame = 2
+script = ExtResource("13_sjxxq")
+metadata/_custom_type_script = "uid://dwkv0jttmsyn"
+
+[connection signal="state_entered" from="StateChart/CompoundState/Grounded" to="." method="_on_grounded_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/CompoundState/Grounded" to="." method="_on_can_jump_state_physics_processing"]
 [connection signal="taken" from="StateChart/CompoundState/Grounded/groundToAir" to="." method="_on_transition_taken"]
 [connection signal="state_physics_processing" from="StateChart/CompoundState/Air/Jumped" to="." method="_on_can_jump_state_physics_processing"]

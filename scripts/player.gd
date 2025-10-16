@@ -7,6 +7,9 @@ var num_jumps = 0
 
 @onready var _animation_tree: AnimationTree = $AnimationTree
 @onready var _animation_state_machine: AnimationNodeStateMachinePlayback = _animation_tree.get("parameters/playback")
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite_2d_attack: Sprite2D = $Sprite2D/Sprite2D_Attack
+@onready var sprite_2d_idle: Sprite2D = $Sprite2D/Sprite2D_Idle
 
 @onready var _parent_sprite: Sprite2D = $Sprite2D
 var is_on_ground = true
@@ -50,6 +53,7 @@ func _physics_process(delta: float) -> void:
 # REGION: DIRECTIONS
     var direction := Input.get_axis("ui_left", "ui_right")
     if direction:
+        animation_player.play("run")
         velocity.x = direction * SPEED
         handle_sprite_direction(direction)
     else:
@@ -59,6 +63,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_can_jump_state_physics_processing(delta: float) -> void:
     if Input.is_action_just_pressed("jump"):
+        
         velocity.y = JUMP_VELOCITY
         state_chart.send_event("jump")
 
@@ -66,3 +71,10 @@ func _on_can_jump_state_physics_processing(delta: float) -> void:
 func _on_area_2d_hitbox_attack_area_entered(area: Area2D) -> void:
     if area.is_in_group("hurtbox"):
         area.take_damage()
+
+
+func _on_grounded_state_entered() -> void:
+    print("idling state")
+    animation_player.play("Idle")
+    sprite_2d_idle.visible = true
+    print(sprite_2d_idle.is_visible())

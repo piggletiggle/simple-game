@@ -24,7 +24,6 @@ func _ready() -> void:
 
 
 func move():
-    print("move")
     action = WALK
     #_animation_state_machine.travel("walk")
     var direction = rng.randi_range(-1, 1)
@@ -37,13 +36,11 @@ func move():
         
     
 func eat():
-    print("eat")
     velocity.x = 0
     action = EAT
     #_animation_state_machine.travel("eating")
     
 func idle():
-    print("idle")
     action = IDLE
     velocity.x = 0
     #_animation_state_machine.travel("idle")
@@ -64,7 +61,6 @@ func _physics_process(delta: float) -> void:
     if can_move:
         actions.shuffle()
         
-        print("moving")
 
         actions[0].call()
         last_moved = current_time_elapsed
