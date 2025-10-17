@@ -2,27 +2,42 @@
 class_name Animator
 extends Sprite2D
 
-
-@export var animation_manager: AnimationManager
-@export var animation_player: AnimationPlayer
-
+@onready var animation_manager: AnimationManager = %AnimationManager
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 ## This is the name you gave to this animation inside the AnimationPlayer
-var animation_player_name
+@export var animation_player_name: String
+@onready var state_chart: StateChart = %StateChart
 
 func _get_configuration_warning() -> String:
     if get_parent() == null or !get_parent() is AnimationManager:
         return "This node must have an AnimationManager as a parent"
     return ""
 
+
+## Tell the sprite to face the current Direction. Animators can override this if flipping the
+## sprite doesn't make sense
+func facing(direction: Enums.Direction):
+    # TODO: what happens if we face left on walking, but then switch to idle? It'll be facing the wrong way.
+    #   we either need to make sure that before we play, we face the correct direction, or we update everything
+    #  to face the correct direction at the same time.
+    if direction == Enums.Direction.LEFT && animation_manager.scale.x  > 0:
+        animation_manager.scale.x *= -1
+    elif direction == Enums.Direction.RIGHT && animation_manager.scale.x <0:
+        animation_manager.scale.x *= -1
+    #for child_sprite in _parent_sprite.get_children():
+        #if direction < 0 and _parent_sprite.scale.x > 0:
+            #_parent_sprite.scale.x *= -1
+        #elif direction > 0 and _parent_sprite.scale.x < 0:
+            #_parent_sprite.scale.x *= -1
+
 ## Must be implemented. This should
 ## - start playing the relevant animation
 ## - call animation_manager.stop() TODO: implement this - AM should call stop of Animator
 func play() -> void:
     self.visible = true
-    if (animation_manager != null):
-        animation_manager.stop()
-    if (animation_player != null):
-        animation_player.play(animation_player_name)
+    animation_manager.stop()
+    # If you failed here, you probably forgot to add a script to your Animator
+    animation_player.play(animation_player_name)
 
 ## Must be implemented. This should
 ## - stop playing the relevant animation
@@ -31,17 +46,4 @@ func play() -> void:
 ## - stop playing the animation
 func stop() -> void:
     self.visible = false
-    print("trying to stop playing: ", animation_player_name)
-    print(animation_player)
-    animation_player.stop()
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-    print("animator is ready")
-    print(animation_player)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-    pass
+    #animation_player.stop()

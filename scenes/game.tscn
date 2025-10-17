@@ -198,10 +198,10 @@ autoplay = true
 bus = &"Music"
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("7_u5sy4")]
-offset_left = 237.0
-offset_top = -189.0
-offset_right = 608.0
-offset_bottom = 13.0
+offset_left = -181.0
+offset_top = -323.0
+offset_right = 146.0
+offset_bottom = 42.0
 initial_node_to_watch = NodePath("..")
 
 [node name="Player2" parent="." instance=ExtResource("6_u5sy4")]
@@ -210,7 +210,7 @@ position = Vector2(-18, 3)
 [node name="Camera2D" type="Camera2D" parent="Player2"]
 position = Vector2(-17, 112)
 offset = Vector2(100, -100)
-zoom = Vector2(4, 4)
+zoom = Vector2(3, 3)
 process_callback = 0
 limit_bottom = 180
 position_smoothing_enabled = true

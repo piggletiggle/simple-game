@@ -2,29 +2,28 @@ class_name AnimationManager
 extends Sprite2D
 
 # We use AnimationPlayer as a database for all our animations.
-@onready var animation_db: AnimationPlayer = $AnimationPlayer
-@onready var sprite_2d_idle: Sprite2D = $Sprite2D/Sprite2D_Idle
-@onready var sprite_2d_run: Sprite2D = $Sprite2D/Sprite2D_Run
-@onready var sprite_2d_attack: Sprite2D = $Sprite2D/Sprite2D_Attack
-@onready var sprite_2d_attack_2: Sprite2D = $Sprite2D/Sprite2D_Attack2
+@onready var animation_db: AnimationPlayer = %AnimationPlayer
 
 # TODO: Maybe use an ENUM for these that gets shared across everything so we can reference the 
 # enum for animations, states, etc.?
 
 var nameToAnimator = {}
 var current_animation: Animator = null
-
+var current_direction: Enums.Direction = Enums.Direction.RIGHT
 # TODO: StringName instead?
 func play(animator_name: String):
-    print("playing animation: ", animator_name)
+    if current_animation != null && current_animation.name == animator_name:
+        return
+    
     var animator: Animator = nameToAnimator.get(animator_name)
-    print("trying to stop current animation", current_animation)
     if (current_animation != null):
         current_animation.stop()
     animator.play()
     current_animation = animator
     
-
+    
+func facing(direction: Enums.Direction):
+    self.current_animation.facing(direction)
 # This stops the current_animation
 # idk why you would need it though. Playing automatically stops the previous one.
 func stop() -> void:
