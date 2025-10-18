@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bohm4ss31l0fl"]
+[gd_scene load_steps=26 format=3 uid="uid://bohm4ss31l0fl"]
 
 [ext_resource type="Script" uid="uid://crjrqqwac6jsk" path="res://scripts/player.gd" id="1_se5fe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_v4p53"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="9_32af4"]
 [ext_resource type="Texture2D" uid="uid://bvuagm8n8ir8p" path="res://assets/sprites/Protoman/Movement/Walking.png" id="10_l5p5i"]
 [ext_resource type="Texture2D" uid="uid://84qlctv02ui6" path="res://assets/sprites/Protoman/Melee/Punch_1.png" id="10_sjxxq"]
+[ext_resource type="Script" uid="uid://cp1oq0li6bh1s" path="res://scripts/Hitbox.gd" id="11_l5p5i"]
 [ext_resource type="Script" uid="uid://dwkv0jttmsyn" path="res://scripts/animations/animator.gd" id="12_32af4"]
 [ext_resource type="Texture2D" uid="uid://gan1j7xse0w6" path="res://assets/sprites/Protoman/Melee/Punch_2.png" id="12_l5p5i"]
 [ext_resource type="Script" uid="uid://bpvi5kdtuctoj" path="res://scripts/animations/animationManager.gd" id="12_sjxxq"]
@@ -91,6 +92,30 @@ tracks/5/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationManager/Animator_Attack1/Hitbox/CollisionShape2D:disabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("AnimationManager/Animator_Attack2/HitBox/CollisionShape2D:disabled")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_32af4"]
 resource_name = "Animator_Idle"
@@ -140,6 +165,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 1]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationManager/Animator_Attack1/Hitbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.202467, 0.40348),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
 [sub_resource type="Animation" id="Animation_sjxxq"]
 resource_name = "Animator_Attack2"
@@ -155,6 +192,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationManager/Animator_Attack2/HitBox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0997802, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_8px16"]
@@ -200,6 +249,12 @@ _data = {
 &"Animator_Walk": SubResource("Animation_ltttp"),
 &"RESET": SubResource("Animation_v4p53")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjxxq"]
+size = Vector2(30, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5p5i"]
+size = Vector2(38, 20)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
@@ -390,14 +445,33 @@ hframes = 5
 script = ExtResource("12_32af4")
 metadata/_custom_type_script = "uid://dwkv0jttmsyn"
 
+[node name="Hitbox" type="Area2D" parent="AnimationManager/Animator_Attack1"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("11_l5p5i")
+metadata/_custom_type_script = "uid://cp1oq0li6bh1s"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimationManager/Animator_Attack1/Hitbox"]
+position = Vector2(27, 12)
+shape = SubResource("RectangleShape2D_sjxxq")
+disabled = true
+
 [node name="Animator_Attack2" type="Sprite2D" parent="AnimationManager"]
 unique_name_in_owner = true
-visible = false
 position = Vector2(8, -72)
 texture = ExtResource("12_l5p5i")
 hframes = 3
 script = ExtResource("12_32af4")
 metadata/_custom_type_script = "uid://dwkv0jttmsyn"
+
+[node name="HitBox" type="Area2D" parent="AnimationManager/Animator_Attack2"]
+script = ExtResource("11_l5p5i")
+metadata/_custom_type_script = "uid://cp1oq0li6bh1s"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimationManager/Animator_Attack2/HitBox"]
+position = Vector2(19, 12)
+shape = SubResource("RectangleShape2D_l5p5i")
+disabled = true
 
 [node name="Animator_Run" type="Sprite2D" parent="AnimationManager"]
 visible = false
@@ -408,6 +482,7 @@ script = ExtResource("12_32af4")
 metadata/_custom_type_script = "uid://dwkv0jttmsyn"
 
 [node name="Animator_Jump" type="Sprite2D" parent="AnimationManager"]
+visible = false
 position = Vector2(0, -72)
 texture = ExtResource("13_sjxxq")
 hframes = 11
