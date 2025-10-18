@@ -4,8 +4,7 @@ extends Sprite2D
 
 @onready var animation_manager: AnimationManager = %AnimationManager
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-## This is the name you gave to this animation inside the AnimationPlayer
-@export var animation_player_name: String
+
 @onready var state_chart: StateChart = %StateChart
 
 func _get_configuration_warning() -> String:
@@ -34,10 +33,11 @@ func facing(direction: Enums.Direction):
 ## - start playing the relevant animation
 ## - call animation_manager.stop() TODO: implement this - AM should call stop of Animator
 func play() -> void:
+    ## This is the name you gave to this animation inside the AnimationPlayer
     self.visible = true
     animation_manager.stop()
     # If you failed here, you probably forgot to add a script to your Animator
-    animation_player.play(animation_player_name)
+    animation_player.play(self.name)
 
 ## Must be implemented. This should
 ## - stop playing the relevant animation

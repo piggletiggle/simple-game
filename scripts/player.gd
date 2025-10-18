@@ -62,10 +62,14 @@ func _physics_process(delta: float) -> void:
 # TODO: might make sense to have a file per state
 
 
+# This is during Grounded state and Jumped state
 func _on_can_jump_state_physics_processing(delta: float) -> void:
     if Input.is_action_just_pressed("jump"):
         velocity.y = JUMP_VELOCITY
+        animation_manager.play("Animator_Jump", Enums.AnimationPriority.MOVEMENT)
+        # We're currently in the "Air" state really
         state_chart.send_event("jump")
+        
 
 
 func _on_area_2d_hitbox_attack_area_entered(area: Area2D) -> void:
@@ -80,34 +84,52 @@ func _on_idle_state_entered() -> void:
 
 func _on_walking_state_entered() -> void:
     print("walking state")
-    animation_manager.play("Animator_Run")
+    animation_manager.play("Animator_Walk")
 
 
 # Attack states
-
-
 func _on_attack_1_state_entered() -> void:
     print("attack1 state")
-    animation_manager.play("Animator_Attack1")
-    pass # Replace with function body.
-    
-
-
+    animation_manager.play("Animator_Attack1", Enums.AnimationPriority.ATTACK)
 
 
 func _on_attack_2_state_entered() -> void:
     print("attack2 state")
-    animation_manager.play("Animator_Attack2")
-    pass # Replace with function body.
+    animation_manager.play("Animator_Attack2", Enums.AnimationPriority.ATTACK)
 
+@onready var to_can_attack: Transition = $StateChart/ParallelState/AttackRoot/Attack1/Attacking/toCanAttack
+@onready var to_can_attack2: Transition = $StateChart/ParallelState/AttackRoot/Attack2/Attacking/toCanAttack
 
+# TODO: there should be some kind of priority system here for animations
 func _on_can_attack_state_physics_processing(delta: float) -> void:
     # TODO: the russian godot tutorial had a better way using a dict
+    # TODO: how do I buffer?
     if Input.is_action_pressed("attack"):
         state_chart.send_event("toAttack1")
-        # TODO: after animation_player.current_animation_length seconds, transition back toCanAttack
-        # TODO: use a fucking Attacking state so I can actually control this nicely!!!!!
-        
+        to_can_attack.delay_in_seconds = str(animation_player.current_animation_length)
     elif Input.is_action_pressed("attack2"):
         state_chart.send_event("toAttack2")
+        to_can_attack2.delay_in_seconds = str(animation_player.current_animation_length)
+
+
+# Attacks should be finished, so we can hand over animation control to movement state
+func _on_can_attack_state_entered() -> void:
+    animation_manager.release_animation_priority()
+    pass
+    # TODO: this kinda works but we don't want to go to Idle, we want to return to what the Movement state should be
+    # could just track movement state and attacking state I guess, and call this when we're done
+    #animation_manager.play("Animator_Idle")
+
+
+func _on_idle_state_physics_processing(delta: float) -> void:
+    animation_manager.play("Animator_Idle")
     
+    #print("idle state")
+    pass
+    # TODO: I want to play the idle state here but only when I'm not actually playing it
+
+
+func _on_walking_state_physics_processing(delta: float) -> void:
+    #print("walking state")
+    # TODO: instead of this, we should be playing whatever has the highest priority. Attacks > Movement
+    animation_manager.play("Animator_Walk")
