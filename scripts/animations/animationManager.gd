@@ -4,9 +4,6 @@ extends Sprite2D
 # We use AnimationPlayer as a database for all our animations.
 @onready var animation_db: AnimationPlayer = %AnimationPlayer
 
-# TODO: Maybe use an ENUM for these that gets shared across everything so we can reference the 
-# enum for animations, states, etc.?
-
 # Tracks the priority of the current animation. Higher is higher priority.
 # e.g. movement=0, attack=1. If attack animation is playing, movement animations can't play until
 # attack has released control (setting this to 0)
@@ -41,15 +38,14 @@ func play(new_animator_name: String, new_priority: int = Enums.AnimationPriority
     
 func facing(direction: Enums.Direction):
     self.current_animation.facing(direction)
-# This stops the current_animation
-# idk why you would need it though. Playing automatically stops the previous one.
-func stop() -> void:
-    current_animation_name = animation_db.current_animation.get_basename()
-    current_animation = nameToAnimator.get(current_animation_name)
-    if current_animation != null:
-        print("stopping ", current_animation_name)
-        #current_animation.stop()
 
+## This doesn't do anything, but could be used to stop the current_animation
+## idk why you would need it though. Playing automatically stops the previous one.
+func stop() -> void:
+    pass
+
+## Call this when you previously had priority but now don't have any animations left to play
+## e.g. You're in the Initial State for a Root state node (MovementRoot/AttackRoot)
 func release_animation_priority():
     currently_playing_animation_priority = 0
 

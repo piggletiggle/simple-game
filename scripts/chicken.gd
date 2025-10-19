@@ -1,8 +1,6 @@
 extends CharacterBody2D
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var _animation_tree: AnimationTree = $AnimationTree
-@onready var _animation_state_machine: AnimationNodeStateMachinePlayback = _animation_tree.get("parameters/playback")
 @onready var _parent_sprite: Sprite2D = $Parent
 var rng = RandomNumberGenerator.new()
 enum {
