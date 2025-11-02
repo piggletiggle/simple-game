@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bohm4ss31l0fl"]
+[gd_scene load_steps=43 format=3 uid="uid://bohm4ss31l0fl"]
 
 [ext_resource type="Script" uid="uid://crjrqqwac6jsk" path="res://scripts/player.gd" id="1_se5fe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="3_v4p53"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://evjfpc8qa4sn" path="res://scripts/states/airborne_state.gd" id="10_3fcyy"]
 [ext_resource type="Texture2D" uid="uid://bvuagm8n8ir8p" path="res://assets/sprites/Protoman/Movement/Walking.png" id="10_l5p5i"]
 [ext_resource type="Script" uid="uid://bsl2c5q0r3luy" path="res://scenes/jumped.gd" id="10_ox7vo"]
+[ext_resource type="Script" uid="uid://6bya20hvlfwh" path="res://scripts/states/air_state.gd" id="10_rgipc"]
 [ext_resource type="Texture2D" uid="uid://84qlctv02ui6" path="res://assets/sprites/Protoman/Melee/Punch_1.png" id="10_sjxxq"]
 [ext_resource type="Script" uid="uid://d1d7lpxm2vtnb" path="res://scripts/states/doubleJumped_state.gd" id="11_e3hvw"]
 [ext_resource type="Script" uid="uid://cp1oq0li6bh1s" path="res://scripts/Hitbox.gd" id="11_l5p5i"]
@@ -25,6 +26,10 @@
 [ext_resource type="Script" uid="uid://cccyyr6woh6qh" path="res://scripts/states/attack2_state.gd" id="14_yf1kj"]
 [ext_resource type="Texture2D" uid="uid://bn6nd7b4g5vrx" path="res://assets/sprites/Protoman/Movement/Double_Jump.png" id="15_t0nfq"]
 [ext_resource type="Script" uid="uid://b74e0e0rp2hfn" path="res://scripts/controller.gd" id="24_dr6s3"]
+[ext_resource type="AudioStream" uid="uid://bmkvfan3i2xdb" path="res://assets/sounds/jump.wav" id="27_4m8cu"]
+[ext_resource type="AudioStream" uid="uid://cv55dfnjaeus2" path="res://assets/sounds/woosh 2.wav" id="28_o8rmy"]
+[ext_resource type="AudioStream" uid="uid://cstjyu2kg2wp7" path="res://assets/sounds/woosh 3.wav" id="29_njgcu"]
+[ext_resource type="AudioStream" uid="uid://beb07oj3q258a" path="res://assets/sounds/explosion.wav" id="30_xcfqr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kedyd"]
 size = Vector2(17, 20)
@@ -365,7 +370,7 @@ delay_in_seconds = "0.0"
 metadata/_custom_type_script = "uid://cf1nsco3w0mf6"
 
 [node name="Air" type="Node" parent="StateChart/ParallelState/MovementRoot"]
-script = ExtResource("7_kedyd")
+script = ExtResource("10_rgipc")
 initial_state = NodePath("Airborne")
 metadata/_custom_type_script = "uid://jk2jm1g6q853"
 
@@ -560,12 +565,33 @@ hframes = 11
 script = ExtResource("12_32af4")
 metadata/_custom_type_script = "uid://dwkv0jttmsyn"
 
+[node name="Animator_AirAttack" type="Sprite2D" parent="AnimationManager"]
+script = ExtResource("12_32af4")
+metadata/_custom_type_script = "uid://dwkv0jttmsyn"
+
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource("24_dr6s3")
+
+[node name="Jump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("27_4m8cu")
+volume_db = -0.084
+pitch_scale = 1.14
+
+[node name="whoosh" type="AudioStreamPlayer" parent="Jump"]
+stream = ExtResource("28_o8rmy")
+
+[node name="whoosh_fast" type="AudioStreamPlayer" parent="Jump"]
+stream = ExtResource("29_njgcu")
+volume_db = -10.947
+pitch_scale = 0.82
+
+[node name="dummy_hit" type="AudioStreamPlayer" parent="Jump"]
+stream = ExtResource("30_xcfqr")
 
 [connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Grounded" to="StateChart/ParallelState/MovementRoot/Grounded" method="_on_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Grounded/Idle" to="StateChart/ParallelState/MovementRoot/Grounded/Idle" method="_on_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Grounded/Moving/Walking" to="StateChart/ParallelState/MovementRoot/Grounded/Moving/Walking" method="_on_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Air" to="StateChart/ParallelState/MovementRoot/Air" method="_on_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Air/Airborne" to="StateChart/ParallelState/MovementRoot/Air/Airborne" method="_on_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/MovementRoot/Air/Jumped" to="StateChart/ParallelState/MovementRoot/Air/Jumped" method="_on_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/MovementRoot/Air/Jumped" to="StateChart/ParallelState/MovementRoot/Air/Jumped" method="_on_state_physics_processing"]

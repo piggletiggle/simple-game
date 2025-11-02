@@ -227,6 +227,7 @@ collision_layer = 0
 script = ExtResource("1_rc7ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_rc7ma")
 one_way_collision = true
 

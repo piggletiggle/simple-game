@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cihn5cl8ie5jh"]
+[gd_scene load_steps=11 format=3 uid="uid://cihn5cl8ie5jh"]
 
 [ext_resource type="Script" uid="uid://pnq2jm7rbs0d" path="res://scripts/dummy.gd" id="1_6m2ry"]
 [ext_resource type="Script" uid="uid://nrbg3twqswmu" path="res://scripts/hurtbox.gd" id="1_k5f3b"]
 [ext_resource type="Texture2D" uid="uid://cja5t8j6jei2" path="res://assets/sprites/Training Dummy Sprite Sheet.png" id="2_6m2ry"]
+[ext_resource type="AudioStream" uid="uid://5f56utyibv34" path="res://assets/sounds/thick paper twanging under tension 1.wav" id="4_w4gkx"]
+[ext_resource type="AudioStream" uid="uid://ccf3ffbggh0f1" path="res://assets/sounds/thud.wav" id="5_fva3d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k5f3b"]
 
@@ -83,3 +85,11 @@ shape = SubResource("RectangleShape2D_k5f3b")
 libraries = {
 &"": SubResource("AnimationLibrary_p3fdn")
 }
+
+[node name="dummy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_w4gkx")
+volume_db = -5.299
+pitch_scale = 0.6
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_fva3d")
